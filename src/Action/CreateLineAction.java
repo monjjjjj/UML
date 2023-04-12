@@ -6,6 +6,7 @@ import java.util.List;
 
 import Component.Group;
 import Component.Line;
+import Component.Port;
 import Component.Shape;
 import Factory.LineFactory;
 
@@ -14,8 +15,7 @@ public class CreateLineAction extends Action{
 	private Point startPoint = null;
 	private Point endPoint = null;
 	private LineFactory factory;
-	private int portIndex_1 = -1, portIndex_2 = -1;
-	private Shape shape_1 = null, shape_2 = null;
+	private Port portStart = null, portEnd = null;
 	
 	private final String FIRST = "first";
 	private final String SECOND = "second";
@@ -67,46 +67,48 @@ public class CreateLineAction extends Action{
 		canvas.addShape(line);
 		
 		/* add relative port to line */
-		line.setPorts(shape_1.getPort(portIndex_1), shape_2.getPort(portIndex_2));
+		line.setPorts(portStart, portEnd);
 		
 		/* add the line */
-		shape_1.getPort(portIndex_1).addLine(line);
-		shape_2.getPort(portIndex_2).addLine(line);
+		portStart.addLine(line);
+		portEnd.addLine(line);
 	}
 
 	private Point findConnectedObj(Point point, String target) {
 		for (int i = shapes.size() - 1; i >= 0; i--) {
 			Shape shape = shapes.get(i);
-			Integer portIndex = getPortIndex(shape, point);
-			if (portIndex != null) {	
-				/* be inside the basic object and get the location of relative port */
-				switch (target) {
-					case FIRST:
-						shape_1 = shape;
-						portIndex_1 = portIndex;
-						break;
-					case SECOND:
-						shape_2 = shape;
-						portIndex_2 = portIndex;
-						break;
-				}
+			Port port = getPort(shape, point);
+			if (port != null) {	
+				setLinePoint(target, port);
 				Point portLocation = new Point();
-				portLocation.setLocation(shape.getPort(portIndex).getCenterX(), shape.getPort(portIndex).getCenterY());
+				portLocation.setLocation(port.getCenterX(), port.getCenterY());
 				return portLocation;
 			}
 		}	
 		return null;
 	}
+
+	private void setLinePoint(String target, Port port) {
+		/* be inside the basic object and get the location of relative port */
+		switch (target) {
+			case FIRST:
+				portStart = port;
+				break;
+			case SECOND:
+				portEnd = port;
+				break;
+		}
+	}
 	
-	private Integer getPortIndex(Shape shape, Point point) {
+	private Port getPort(Shape shape, Point point) {
 		String judgeInside = shape.inside(point);
 		if (judgeInside != null && judgeInside != Line.INSIDE_LINE) {
 			/* check the shape inside the group */
 			if (judgeInside == Group.INSIDE_GROUP) {
 				shape = shape.getSelectedBasicObject();
-				return Integer.parseInt(shape.inside(point));
+				return shape.getPort(Integer.parseInt(shape.inside(point)));
 			} else {
-				return Integer.parseInt(judgeInside);
+				return shape.getPort(Integer.parseInt(judgeInside));
 			}
 		}
 		

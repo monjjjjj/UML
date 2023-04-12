@@ -59,7 +59,7 @@ public class Group extends Shape{
 		}
 		return null;
 	}
-	
+
 	public void changeName(String name) {
 		selectedBasicObject.changeName(name);
 	}
