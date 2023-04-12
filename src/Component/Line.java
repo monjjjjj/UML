@@ -7,6 +7,7 @@ import java.awt.geom.Line2D;
 import Models.CustomColor;
 
 public abstract class Line extends Shape{
+	public static final String INSIDE_LINE = "insideLine";
 	private Port[] ports = new Port[2];
 	private String selectedFlag = null;
 	
@@ -59,7 +60,7 @@ public abstract class Line extends Shape{
 			else {
 				selectedFlag = "end";
 			}
-			return "insideLine";
+			return INSIDE_LINE;
 		}
 		else {
 			return null;

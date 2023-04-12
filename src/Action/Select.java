@@ -36,7 +36,7 @@ public class Select extends Action{
 		int moveX = e.getX() - startPoint.x;
 		int moveY = e.getY() - startPoint.y;
 		if (canvas.selectedObj != null) {
-			if (judgeInside == "insideLine") {
+			if (judgeInside == Line.INSIDE_LINE) {
 				selectedLine = (Line) canvas.selectedObj;
 				selectedLine.resetStartEnd(e.getPoint());
 			}
@@ -58,7 +58,7 @@ public class Select extends Action{
 	public void mouseReleased(MouseEvent e) {
 		if (canvas.selectedObj != null) {
 			// move Line object
-			if (judgeInside == "insideLine") {
+			if (judgeInside == Line.INSIDE_LINE) {
 				selectedLine = (Line) canvas.selectedObj;
 				reconnectLine(e.getPoint());
 				
@@ -76,7 +76,7 @@ public class Select extends Action{
 			Shape shape = shapes.get(i);
 			int portIndex;
 			String judgeInside = shape.inside(point);
-			if (judgeInside != null && judgeInside != "insideLine") {
+			if (judgeInside != null && judgeInside != Line.INSIDE_LINE) {
 				/* if shape inside the group */
 				if (judgeInside == "insideGroup") {
 					shape = shape.getSelectedBasicObject();

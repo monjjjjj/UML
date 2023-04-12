@@ -100,7 +100,7 @@ public class CreateLineAction extends Action{
 	
 	private Integer getPortIndex(Shape shape, Point point) {
 		String judgeInside = shape.inside(point);
-		if (judgeInside != null && judgeInside != "insideLine") {
+		if (judgeInside != null && judgeInside != Line.INSIDE_LINE) {
 			/* check the shape inside the group */
 			if (judgeInside == Group.INSIDE_GROUP) {
 				shape = shape.getSelectedBasicObject();
