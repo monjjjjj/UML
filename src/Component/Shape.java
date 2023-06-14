@@ -2,6 +2,7 @@ package Component;
 
 import java.awt.Graphics;
 import java.awt.Point;
+import java.util.List;
 
 public abstract class Shape {
 	protected int x1, x2, y1, y2; 
@@ -58,5 +59,9 @@ public abstract class Shape {
 	
 	public Boolean isGroupable() {
 		return true;
+	}
+	
+	public List<Shape> getShapes() {
+		return null;
 	}
 }

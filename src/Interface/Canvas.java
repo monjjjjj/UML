@@ -20,7 +20,6 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import Component.Group;
-import Component.Port;
 import Component.Shape;
 import Action.Action;
 import Models.CustomColor;
@@ -133,27 +132,6 @@ public class Canvas extends JPanel{
 			showGroupRangeInvalidWarning();
 		}
 	}
-	
-	/*
-	public void groupShape() {
-		Long totalSelected = getTotalSelected();
-		if (totalSelected > 1) {
-			Group group = new Group();
-			int number = shapes.size();
-			int i = number;;
-			do {
-				Shape shape = shapes.get(i);
-				if (shape.isGroupSelected()) {
-					group.addShapes(shape);
-					shapes.remove(i);
-					i--;
-				}
-			}while( i < number);
-		} else {
-			showGroupRangeInvalidWarning();
-		}
-	}
-	*/
 
 	private Long getTotalSelected() {
 		Long totalSelected = (long) 0;
@@ -174,12 +152,27 @@ public class Canvas extends JPanel{
 		warningFrame.setLocationRelativeTo(null);
 		warningFrame.setVisible(true);
 	}
-
+	/*
 	public void removeGroup() {
 		if (selectedObj != null) {
 			if (selectedObj.getClass().getName() == "Component.Group") {
 				Group group = (Group) selectedObj;
 				List<Shape> groupShapes = group.getShapes();
+				for(int i = 0; i < groupShapes.size(); i++){
+					Shape shape = groupShapes.get(i);
+					shapes.add(shape);
+				}
+				shapes.remove(selectedObj);
+			}
+			reset();
+		}
+	}
+	*/
+	public void removeGroup() {
+		if (selectedObj != null) {
+			Shape group = (Shape) selectedObj;
+			List<Shape> groupShapes = group.getShapes();
+			if (groupShapes != null) {
 				for(int i = 0; i < groupShapes.size(); i++){
 					Shape shape = groupShapes.get(i);
 					shapes.add(shape);
